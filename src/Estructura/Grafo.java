@@ -140,6 +140,7 @@ public class Grafo {
             }
         }
     }
+    private Lista caminoMasCortoAux(NodoVert partida, Lista visitados, Lista menor, int llegada) {         NodoAdy aux;         Lista menorAux;         if (!visitados.pertenece(partida.getElem())) {             visitados.insertar(partida.getElem(), visitados.longitud() + 1);             if (partida.getElem() == llegada) {                 if (menor.esVacia()) {                     menor = visitados.clonar();                 } else {                     if (visitados.longitud() < menor.longitud()) {                         menor = visitados.clonar();                     }                 }             } else {                 aux = partida.getPrimerAdy();                 while (aux != null) {                     menorAux = caminoMasCortoAux(aux.getVertice(), visitados, menor, llegada);                     if (!menorAux.esVacia()) {                         if (!menor.esVacia()) {                             if (menorAux.longitud() < menor.longitud()) {                                 menor = menorAux.clonar();                               }                         } else {                             menor = menorAux.clonar();                         }                     }                     aux = aux.getSigAdyacente();                 }             }             visitados.eliminar(visitados.longitud());         }         return menor;     } 
 }
 
 
