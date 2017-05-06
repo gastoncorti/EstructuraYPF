@@ -68,7 +68,7 @@ public class Grafo {
 
     private void profundidadDesde(NodoVert nodov, Lista visitados) {
         if (nodov != null) {
-            visitados.insertar(nodov.getElem(), visitados.longitud()+1);
+            visitados.insertar(nodov.getElem(), visitados.longitud() + 1);
             NodoAdy ady = nodov.getPrimerAdy();
             while (ady != null) {
                 if (!visitados.pertenece(ady.getVertice().getElem())) {
@@ -111,36 +111,69 @@ public class Grafo {
         }
         return existe;
     }
-    
+
     public Lista listarAnchura() {
         Lista visitados = new Lista();
         NodoVert aux = this.inicio;
-        while(aux != null) {
-            if(!visitados.pertenece(aux.getElem())) {
+        while (aux != null) {
+            if (!visitados.pertenece(aux.getElem())) {
                 anchuraDesde(aux, visitados);
             }
             aux = aux.getSigVertice();
         }
-        
+
         return visitados;
     }
 
     private void anchuraDesde(NodoVert inicial, Lista visitados) {
         Cola cola = new Cola();
         cola.poner(inicial.getElem());
-        while(!cola.esVacia()) {
+        while (!cola.esVacia()) {
             NodoVert auxVert = new NodoVert(cola.sacar());
-            visitados.insertar(auxVert.getElem(), visitados.longitud()+1);
+            visitados.insertar(auxVert.getElem(), visitados.longitud() + 1);
             NodoAdy auxAdy = auxVert.getPrimerAdy();
-            while(auxAdy != null) {
-                if(!visitados.pertenece(auxVert.getElem())) {
+            while (auxAdy != null) {
+                if (!visitados.pertenece(auxVert.getElem())) {
                     cola.poner(auxVert.getElem());
                 }
                 auxAdy = auxAdy.getSigAdyacente();
             }
         }
     }
-    private Lista caminoMasCortoAux(NodoVert partida, Lista visitados, Lista menor, int llegada) {         NodoAdy aux;         Lista menorAux;         if (!visitados.pertenece(partida.getElem())) {             visitados.insertar(partida.getElem(), visitados.longitud() + 1);             if (partida.getElem() == llegada) {                 if (menor.esVacia()) {                     menor = visitados.clonar();                 } else {                     if (visitados.longitud() < menor.longitud()) {                         menor = visitados.clonar();                     }                 }             } else {                 aux = partida.getPrimerAdy();                 while (aux != null) {                     menorAux = caminoMasCortoAux(aux.getVertice(), visitados, menor, llegada);                     if (!menorAux.esVacia()) {                         if (!menor.esVacia()) {                             if (menorAux.longitud() < menor.longitud()) {                                 menor = menorAux.clonar();                               }                         } else {                             menor = menorAux.clonar();                         }                     }                     aux = aux.getSigAdyacente();                 }             }             visitados.eliminar(visitados.longitud());         }         return menor;     } 
+
+    private Lista caminoMasCortoAux(NodoVert partida, Lista visitados, Lista menor, int llegada) {
+        NodoAdy aux;
+        Lista menorAux;
+        if (!visitados.pertenece(partida.getElem())) {
+            visitados.insertar(partida.getElem(), visitados.longitud() + 1);
+            if (partida.getElem() == llegada) {
+                if (menor.esVacia()) {
+                    menor = visitados.clonar();
+                } else {
+                    if (visitados.longitud() < menor.longitud()) {
+                        menor = visitados.clonar();
+                    }
+                }
+            } else {
+                aux = partida.getPrimerAdy();
+                while (aux != null) {
+                    menorAux = caminoMasCortoAux(aux.getVertice(), visitados, menor, llegada);
+                    if (!menorAux.esVacia()) {
+                        if (!menor.esVacia()) {
+                            if (menorAux.longitud() < menor.longitud()) {
+                                menor = menorAux.clonar();
+                            }
+                        } else {
+                            menor = menorAux.clonar();
+                        }
+                    }
+                    aux = aux.getSigAdyacente();
+                }
+            }
+            visitados.eliminar(visitados.longitud());
+        }
+        return menor;
+    }
 }
 
 
@@ -241,4 +274,4 @@ public ListaString caminoMasCorto(String partida, String llegada) {
         } 
         return res; 
     } 
-*/
+ */
