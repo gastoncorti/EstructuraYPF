@@ -2,7 +2,6 @@ package Estructura;
 
 import Nodo.NodoAdy;
 import Nodo.NodoVert;
-import java.util.LinkedList;
 
 public class Grafo {
 
@@ -12,7 +11,7 @@ public class Grafo {
         this.inicio = null;
     }
 
-    public boolean insertarVertice(int elem) {
+    public boolean insertarVertice(String elem) {
         boolean seInserto = false;
         NodoVert aux = ubicarVertice(elem);
         if (aux == null) {
@@ -22,15 +21,15 @@ public class Grafo {
         return seInserto;
     }
 
-    private NodoVert ubicarVertice(int buscado) {
+    private NodoVert ubicarVertice(String buscado) {
         NodoVert aux = inicio;
-        while (aux != null && aux.getElem() != buscado) {
+        while (aux != null && !aux.getElem().equals(buscado)) {
             aux = aux.getSigVertice();
         }
         return aux;
     }
 
-    public boolean insertarArco(int origen, int destino) {
+    public boolean insertarArco(String origen, String destino) {
         boolean seInserto = false;
         NodoVert o = ubicarVertice(origen);
         if (o != null) {
@@ -52,8 +51,8 @@ public class Grafo {
         return seInserto;
     }
 
-    public Lista listarProfundidad() {
-        Lista visitados = new Lista();
+    public ListaStr listarProfundidad() {
+        ListaStr visitados = new ListaStr();
         //LinkedList<Integer> visitados = new LinkedList<>();
         NodoVert aux = this.inicio;
         while (aux != null) {
@@ -66,7 +65,7 @@ public class Grafo {
         return visitados;
     }
 
-    private void profundidadDesde(NodoVert nodov, Lista visitados) {
+    private void profundidadDesde(NodoVert nodov, ListaStr visitados) {
         if (nodov != null) {
             visitados.insertar(nodov.getElem(), visitados.longitud() + 1);
             NodoAdy ady = nodov.getPrimerAdy();
@@ -79,30 +78,30 @@ public class Grafo {
         }
     }
 
-    public boolean existeCamino(int origen, int destino) {
+    public boolean existeCamino(String origen, String destino) {
         boolean existe = false;
 
         NodoVert o = ubicarVertice(origen);
         NodoVert d = ubicarVertice(destino);
 
         if (o != null && d != null) {
-            LinkedList<Integer> visitados = new LinkedList<>();
+            ListaStr visitados = new ListaStr();
             existe = existeCaminoAux(o, destino, visitados);
         }
 
         return existe;
     }
 
-    private boolean existeCaminoAux(NodoVert origen, int destino, LinkedList<Integer> visitados) {
+    private boolean existeCaminoAux(NodoVert origen, String destino, ListaStr visitados) {
         boolean existe = false;
         if (origen != null) {
-            if (origen.getElem() == destino) {
+            if (origen.getElem().equals(destino)) {
                 existe = true;
             } else {
-                visitados.add(origen.getElem());
+                visitados.insertar(origen.getElem());
                 NodoAdy ady = origen.getPrimerAdy();
                 while (!existe && ady != null) {
-                    if (!visitados.contains(ady.getVertice().getElem())) {
+                    if (!visitados.pertenece(ady.getVertice().getElem())) {
                         existe = existeCaminoAux(ady.getVertice(), destino, visitados);
                     }
                     ady = ady.getSigAdyacente();
@@ -112,8 +111,8 @@ public class Grafo {
         return existe;
     }
 
-    public Lista listarAnchura() {
-        Lista visitados = new Lista();
+    public ListaStr listarAnchura() {
+        ListaStr visitados = new ListaStr();
         NodoVert aux = this.inicio;
         while (aux != null) {
             if (!visitados.pertenece(aux.getElem())) {
@@ -125,7 +124,7 @@ public class Grafo {
         return visitados;
     }
 
-    private void anchuraDesde(NodoVert inicial, Lista visitados) {
+    private void anchuraDesde(NodoVert inicial, ListaStr visitados) {
         Cola cola = new Cola();
         cola.poner(inicial.getElem());
         while (!cola.esVacia()) {
@@ -141,12 +140,12 @@ public class Grafo {
         }
     }
 
-    private Lista caminoMasCortoAux(NodoVert partida, Lista visitados, Lista menor, int llegada) {
+    private ListaStr caminoMasCortoAux(NodoVert partida, ListaStr visitados, ListaStr menor, String llegada) {
         NodoAdy aux;
-        Lista menorAux;
+        ListaStr menorAux;
         if (!visitados.pertenece(partida.getElem())) {
             visitados.insertar(partida.getElem(), visitados.longitud() + 1);
-            if (partida.getElem() == llegada) {
+            if (partida.getElem().equals(llegada)) {
                 if (menor.esVacia()) {
                     menor = visitados.clonar();
                 } else {

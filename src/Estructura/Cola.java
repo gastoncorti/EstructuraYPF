@@ -1,31 +1,31 @@
 package Estructura;
 
-import Nodo.NodoLista;
+import Nodo.Nodo;
 
 public class Cola {
 
-    private NodoLista frente, fin;
+    private Nodo frente, fin;
 
     public Cola() {
         frente = fin = null;
     }
 
-    public boolean poner(int elem) {
+    public boolean poner(String elem) {
         boolean sePuso = false;
         if (!esVacia()) {
-            NodoLista nuevo = new NodoLista(elem);
+            Nodo nuevo = new Nodo(elem);
             fin.setEnlace(nuevo);
             fin = nuevo;
             sePuso = true;
         } else {
-            frente = new NodoLista(elem, fin);
+            frente = new Nodo(elem, fin);
             fin = frente;
         }
         return sePuso;
     }
 
-    public int sacar() {
-        int elem = -1;
+    public String sacar() {
+        String elem = "";
         if (!esVacia()) {
             elem = frente.getElem();
             frente = frente.getEnlace();
@@ -36,8 +36,8 @@ public class Cola {
         return elem;
     }
 
-    public int getFrente() {
-        return (frente == null) ? -1 : frente.getElem();
+    public String getFrente() {
+        return (frente == null) ? null : frente.getElem();
     }
 
     public boolean esVacia() {
@@ -56,7 +56,7 @@ public class Cola {
     public String toString() {
         String cad = "";
         if (!esVacia()) {
-            NodoLista aux = frente;
+            Nodo aux = frente;
             while (aux != null) {
                 cad = cad + aux.getElem() + ",";
                 aux = aux.getEnlace();

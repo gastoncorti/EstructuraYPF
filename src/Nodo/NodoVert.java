@@ -1,28 +1,28 @@
 package Nodo;
 
 public class NodoVert {
-    private int elem;
+    private String elem;
     private NodoVert sigVertice;
     private NodoAdy primerAdy;
 
-    public NodoVert(int elem) {
+    public NodoVert(String elem) {
         this.elem = elem;
         this.sigVertice = null;
         this.primerAdy = null;
     }
 
-    public NodoVert(int elem, NodoVert sigVertice) {
+    public NodoVert(String elem, NodoVert sigVertice) {
         this.elem = elem;
         this.sigVertice = sigVertice;
         this.primerAdy = null;
     }
     
 
-    public int getElem() {
+    public String getElem() {
         return elem;
     }
 
-    public void setElem(int elem) {
+    public void setElem(String elem) {
         this.elem = elem;
     }
 

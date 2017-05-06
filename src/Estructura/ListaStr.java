@@ -1,34 +1,38 @@
 package Estructura;
 
-import Nodo.NodoLista;
+import Nodo.Nodo;
 
-public class Lista {
+public class ListaStr {
 
-    private NodoLista cabecera;
+    private Nodo cabecera;
 
-    public Lista() {
+    public ListaStr() {
         this.cabecera = null;
     }
 
-    public boolean insertar(int elem) {
+    public boolean insertar(String elem) {
        boolean seInserto = false;
-       
+       Nodo aux = cabecera;
+       while(aux.getEnlace() != null) {
+           aux = aux.getEnlace();
+       }
+       aux.setEnlace(new Nodo(elem, null));
        return seInserto;
     }
-    public boolean insertar(int elem, int pos) {
+    public boolean insertar(String elem, int pos) {
         boolean seInserto = false;
         if (pos >= 1 || pos <= this.longitud() + 1) {
             if (pos != 1) {
-                NodoLista aux = cabecera;
+                Nodo aux = cabecera;
                 int i = 1;
                 while (i < pos - 1) {
                     i++;
                     aux = aux.getEnlace();
                 }
-                aux.setEnlace(new NodoLista(elem, aux.getEnlace()));
+                aux.setEnlace(new Nodo(elem, aux.getEnlace()));
                 seInserto = true;
             } else {
-                cabecera = new NodoLista(elem, this.cabecera);
+                cabecera = new Nodo(elem, this.cabecera);
                 seInserto = true;
             }
         }
@@ -39,7 +43,7 @@ public class Lista {
         boolean seElimino = false;
         if (pos >= 1 || pos <= this.longitud()) {
             if (pos != 1) {
-                NodoLista aux = cabecera;
+                Nodo aux = cabecera;
                 int i = 1;
                 while (i < pos - 1) {
                     i++;
@@ -55,13 +59,13 @@ public class Lista {
         return seElimino;
     }
 
-    public int recuperar(int pos) {
-        int elem = 0;
+    public String recuperar(int pos) {
+        String elem = "";
         if(cabecera != null && (pos > 0 || pos <= this.longitud())) {
             if(pos == 1) {
                 elem = cabecera.getElem();
             } else {
-                NodoLista aux = cabecera;
+                Nodo aux = cabecera;
                 int cont = 1;
                 while(aux != null) {
                     if(cont != pos) {
@@ -77,11 +81,11 @@ public class Lista {
         return elem;
     }
 
-    public boolean pertenece(int elem) {
+    public boolean pertenece(String elem) {
         boolean pertenece = false;
-        NodoLista aux = cabecera;
+        Nodo aux = cabecera;
         while (aux != null && !pertenece) {
-            if (aux.getElem() != elem) {
+            if (!aux.getElem().equals(elem)) {
                 aux = aux.getEnlace();
             } else {
                 pertenece = true;
@@ -98,14 +102,14 @@ public class Lista {
         return cabecera == null;
     }
 
-    public Lista clonar() {
-        Lista clon = new Lista();
+    public ListaStr clonar() {
+        ListaStr clon = new ListaStr();
 
         return clon;
     }
 
     public int longitud() {
-        NodoLista aux = cabecera;
+        Nodo aux = cabecera;
         int longitud = 0;
 
         if (!esVacia()) {
@@ -123,7 +127,7 @@ public class Lista {
     public String toString() {
         String cad = "";
         if (!esVacia()) {
-            NodoLista aux = cabecera;
+            Nodo aux = cabecera;
             for (int i = 1; i <= this.longitud(); i++) {
                 cad = cad + aux.getElem() + ",";
                 aux = aux.getEnlace();
